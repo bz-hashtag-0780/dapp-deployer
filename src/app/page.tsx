@@ -5,13 +5,13 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { Octokit } from '@octokit/rest'; //new
+// import { Octokit } from '@octokit/rest'; //new
 
 const HomePage = () => {
 	const { data: session } = useSession();
 	const [repoName, setRepoName] = useState('');
 	const [description, setDescription] = useState('');
-	const [repoExists, setRepoExists] = useState<boolean | null>(null); //new
+	// const [repoExists, setRepoExists] = useState<boolean | null>(null); //new
 
 	const createRepo = async () => {
 		try {
