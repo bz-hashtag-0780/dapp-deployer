@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { options } from '../auth/[...nextauth]/options'; // adjust this import path based on your setup
 
-export async function POST(req: NextRequest) {
+export async function POST() {
 	// Get the session, which includes the user's GitHub access token
 	const session = await getServerSession(options);
 
@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
 
 	const accessToken = session.accessToken as string;
 
+	const username = session.user?.name || 'default-username';
+
 	// Initialize Octokit with the user's access token
 	const octokit = new Octokit({
 		auth: accessToken,
@@ -23,16 +25,14 @@ export async function POST(req: NextRequest) {
 
 	try {
 		// Use Octokit to create the repository
-		const response = await octokit.request('POST /user/repos', {
-			name: 'Hello-World-2', // Replace with the desired repo name or pass it from the client
-			description: 'This is your first repo!',
-			homepage: 'https://github.com',
-			private: false,
-			is_template: true,
-			headers: {
-				'X-GitHub-Api-Version': '2022-11-28',
-			},
-		});
+		const response = await octokit.request(
+			'POST /repos/{template_owner}/{template_repo}/generate',
+			{
+				template_owner: 'bz-hashtag-0780',
+				template_repo: 'Hello-World',
+				name: 'New-World-2',
+			}
+		);
 
 		return NextResponse.json(response.data, { status: 201 });
 	} catch (error) {
