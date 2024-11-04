@@ -32,6 +32,17 @@ const HomePage = () => {
 		}
 	};
 
+	const checkAccessToken = () => {
+		// Check if accessToken exists in the session and log it
+		if (session?.accessToken) {
+			console.log('Access Token:', session.accessToken);
+			alert(`Access Token: ${session.accessToken}`);
+		} else {
+			console.log('No Access Token found');
+			alert('No Access Token found');
+		}
+	};
+
 	return (
 		<div>
 			<h1>HomePage</h1>
@@ -76,6 +87,17 @@ const HomePage = () => {
 							type="button"
 						>
 							Deploy New Repo
+						</button>
+					</div>
+
+					{/* Button to Check Access Token */}
+					<div className="mt-4">
+						<button
+							className="bg-blue-600 px-4 py-2 text-white"
+							onClick={checkAccessToken}
+							type="button"
+						>
+							Check Access Token
 						</button>
 					</div>
 				</div>
