@@ -7,28 +7,18 @@ const HomePage = () => {
 	const [repoName, setRepoName] = useState('');
 	const [description, setDescription] = useState('');
 
-	const handleCreateRepo = async () => {
+	const createRepo = async () => {
 		try {
 			const response = await fetch('/api/create-repo', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					name: repoName,
-					description,
-				}),
 			});
 
-			if (!response.ok) {
-				throw new Error('Failed to create repository');
-			}
+			if (!response.ok) throw new Error('Failed to create repository');
 
-			const data = await response.json();
-			alert(`Repository created: ${data.html_url}`);
+			const repoData = await response.json();
+			console.log('Repository created:', repoData);
 		} catch (error) {
 			console.error(error);
-			alert('An error occurred while creating the repository');
 		}
 	};
 
@@ -81,13 +71,13 @@ const HomePage = () => {
 							onChange={(e) => setDescription(e.target.value)}
 							className="mb-2 px-2 py-1 border"
 						/>
-						<button
+						{/* <button
 							className="bg-green-600 px-4 py-2 text-white"
 							onClick={handleCreateRepo}
 							type="button"
 						>
 							Deploy New Repo
-						</button>
+						</button> */}
 					</div>
 
 					{/* Button to Check Access Token */}
@@ -99,6 +89,9 @@ const HomePage = () => {
 						>
 							Check Access Token
 						</button>
+					</div>
+					<div>
+						<button onClick={createRepo}>Create Repository</button>
 					</div>
 				</div>
 			) : (
