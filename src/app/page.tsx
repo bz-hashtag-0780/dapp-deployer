@@ -39,41 +39,41 @@ const HomePage = () => {
 		}
 	};
 
-	const checkRepositoryExists = async () => {
-		if (!session?.accessToken) {
-			alert('You need to be signed in to check the repository');
-			return;
-		}
+	// const checkRepositoryExists = async () => {
+	// 	if (!session?.accessToken) {
+	// 		alert('You need to be signed in to check the repository');
+	// 		return;
+	// 	}
 
-		const octokit = new Octokit({
-			auth: session.accessToken,
-		});
+	// 	const octokit = new Octokit({
+	// 		auth: session.accessToken,
+	// 	});
 
-		try {
-			const response = await octokit.request(
-				'GET /repos/{owner}/{repo}',
-				{
-					owner: 'bz-hashtag-0780', // Replace with your repository owner
-					repo: 'Hello-World', // Replace with the repository name
-					headers: {
-						'X-GitHub-Api-Version': '2022-11-28',
-					},
-				}
-			);
+	// 	try {
+	// 		const response = await octokit.request(
+	// 			'GET /repos/{owner}/{repo}',
+	// 			{
+	// 				owner: 'bz-hashtag-0780', // Replace with your repository owner
+	// 				repo: 'Hello-World', // Replace with the repository name
+	// 				headers: {
+	// 					'X-GitHub-Api-Version': '2022-11-28',
+	// 				},
+	// 			}
+	// 		);
 
-			if (response.status === 200) {
-				setRepoExists(true);
-				console.log('Repository exists:', response.data);
-			}
-		} catch (error: any) {
-			if (error.status === 404) {
-				setRepoExists(false);
-				console.log('Repository does not exist');
-			} else {
-				console.error('An error occurred:', error);
-			}
-		}
-	};
+	// 		if (response.status === 200) {
+	// 			setRepoExists(true);
+	// 			console.log('Repository exists:', response.data);
+	// 		}
+	// 	} catch (error: any) {
+	// 		if (error.status === 404) {
+	// 			setRepoExists(false);
+	// 			console.log('Repository does not exist');
+	// 		} else {
+	// 			console.error('An error occurred:', error);
+	// 		}
+	// 	}
+	// };
 
 	return (
 		<div>
@@ -136,7 +136,7 @@ const HomePage = () => {
 						<button onClick={createRepo}>Create Repository</button>
 					</div>
 					{/* Button to Check if Repository Exists */}
-					<div className="mt-4">
+					{/* <div className="mt-4">
 						<button
 							className="bg-purple-600 px-4 py-2 text-white"
 							onClick={checkRepositoryExists}
@@ -148,7 +148,7 @@ const HomePage = () => {
 						{repoExists === false && (
 							<p>The repository does not exist.</p>
 						)}
-					</div>
+					</div> */}
 				</div>
 			) : (
 				<button
