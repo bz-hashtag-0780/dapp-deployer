@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 'use client';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -63,12 +65,8 @@ const HomePage = () => {
 				setRepoExists(true);
 				console.log('Repository exists:', response.data);
 			}
-		} catch (error: unknown) {
-			if (
-				error instanceof Error &&
-				'status' in error &&
-				(error as any).status === 404
-			) {
+		} catch (error: any) {
+			if (error.status === 404) {
 				setRepoExists(false);
 				console.log('Repository does not exist');
 			} else {
