@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/rest';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { options } from '../auth/[...nextauth]/options'; // adjust this import path based on your setup
 
 export async function POST() {
@@ -16,7 +16,7 @@ export async function POST() {
 
 	const accessToken = session.accessToken as string;
 
-	const username = session.user?.name || 'default-username';
+	// const username = session.user?.name || 'default-username';
 
 	// Initialize Octokit with the user's access token
 	const octokit = new Octokit({
