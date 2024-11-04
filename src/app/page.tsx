@@ -63,8 +63,12 @@ const HomePage = () => {
 				setRepoExists(true);
 				console.log('Repository exists:', response.data);
 			}
-		} catch (error: any) {
-			if (error.status === 404) {
+		} catch (error: unknown) {
+			if (
+				error instanceof Error &&
+				'status' in error &&
+				(error as any).status === 404
+			) {
 				setRepoExists(false);
 				console.log('Repository does not exist');
 			} else {
