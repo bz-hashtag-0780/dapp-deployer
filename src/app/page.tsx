@@ -32,18 +32,40 @@ const HomePage = () => {
 	const handleCreateDapp = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsLoading(true);
-		// Here you would implement the logic to create the GitHub repository
-		// For demonstration, we'll just simulate a delay
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-		setIsLoading(false);
-		alert(`Repository "${projectName}" created successfully!`);
-		setProjectName('');
+
+		try {
+			// Send request to create the GitHub repository
+			const response = await fetch('/api/create-repo', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name: projectName }),
+			});
+
+			if (!response.ok) throw new Error('Failed to create repository');
+
+			const repoData = await response.json();
+			console.log('Repository created:', repoData);
+			alert(`Repository "${projectName}" created successfully!`);
+		} catch (error) {
+			console.error('Error creating repository:', error);
+			alert('Error creating repository');
+		} finally {
+			// Reset loading state and clear project name
+			setIsLoading(false);
+			setProjectName('');
+		}
 	};
 
 	const createRepo = async () => {
 		try {
 			const response = await fetch('/api/create-repo', {
 				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name: projectName }),
 			});
 
 			if (!response.ok) throw new Error('Failed to create repository');
@@ -238,13 +260,13 @@ const HomePage = () => {
 									</>
 								)}
 							</Button>
-							<button
+							{/* <button
 								className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
 								onClick={() => signOut({ callbackUrl: '/' })}
 								type="button"
 							>
 								Sign Out
-							</button>
+							</button> */}
 						</CardFooter>
 					</form>
 				) : (

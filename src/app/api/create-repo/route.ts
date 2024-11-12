@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { options } from '../auth/[...nextauth]/options'; // adjust this import path based on your setup
 
-export async function POST() {
+export async function POST(request: Request) {
 	// Get the session, which includes the user's GitHub access token
 	const session = await getServerSession(options);
 
@@ -23,14 +23,22 @@ export async function POST() {
 		auth: accessToken,
 	});
 
+	const { name } = await request.json();
+
+	// Generate a random 5-character alphanumeric suffix
+	const randomSuffix = Math.random().toString(36).substring(2, 7);
+
+	// Use the provided name, or generate a default name with a random suffix
+	const repositoryName = name || `KittyZenBot-${randomSuffix}`;
+
 	try {
 		// Use Octokit to create the repository
 		const response = await octokit.request(
 			'POST /repos/{template_owner}/{template_repo}/generate',
 			{
 				template_owner: 'bz-hashtag-0780',
-				template_repo: 'Hello-World',
-				name: 'New-World-2',
+				template_repo: 'KittyZenBot',
+				name: repositoryName,
 			}
 		);
 
