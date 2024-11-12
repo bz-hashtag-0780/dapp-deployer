@@ -19,7 +19,7 @@ const DappStarter: React.FC = () => {
 					Start building your dapp now!
 				</h2>
 				<div className="grid grid-cols-3 gap-4">
-					<div className="border p-4 rounded relative">
+					<div className="relative flex min-h-[220px] flex-col rounded-lg border border-border bg-muted/50 p-4 hover:bg-muted">
 						<h3 className="text-xl font-bold">
 							1-Click Telegram Game
 						</h3>
@@ -33,7 +33,7 @@ const DappStarter: React.FC = () => {
 							Create Dapp
 						</button>
 					</div>
-					<div className="border p-4 rounded relative">
+					<div className="relative flex min-h-[220px] flex-col rounded-lg border border-border bg-muted/50 p-4 hover:bg-muted">
 						<h3 className="text-xl font-bold">
 							1-Click NBA Top Shot Dapp
 						</h3>
@@ -47,7 +47,7 @@ const DappStarter: React.FC = () => {
 							Create Dapp
 						</button>
 					</div>
-					<div className="border p-4 rounded relative">
+					<div className="relative flex min-h-[220px] flex-col rounded-lg border border-border bg-muted/50 p-4 hover:bg-muted">
 						<h3 className="text-xl font-bold">
 							1-Click Another Dapp
 						</h3>
