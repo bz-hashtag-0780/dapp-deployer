@@ -197,48 +197,69 @@ const HomePage = () => {
 						Create your telegram game repository in one click
 					</CardDescription>
 				</CardHeader>
-				<form onSubmit={handleCreateDapp}>
-					<CardContent>
-						<div className="space-y-4">
-							<div className="space-y-2">
-								<Label
-									htmlFor="project-name"
-									className="font-bold"
-								>
-									Project Name
-								</Label>
-								<Input
-									id="project-name"
-									placeholder="Enter your project name"
-									value={projectName}
-									onChange={(e) =>
-										setProjectName(e.target.value)
-									}
-									required
-								/>
+				{session ? (
+					<form onSubmit={handleCreateDapp}>
+						<CardContent>
+							<div className="space-y-4">
+								<div className="space-y-2">
+									<Label
+										htmlFor="project-name"
+										className="font-bold"
+									>
+										Project Name
+									</Label>
+									<Input
+										id="project-name"
+										placeholder="Enter your project name"
+										value={projectName}
+										onChange={(e) =>
+											setProjectName(e.target.value)
+										}
+										required
+									/>
+								</div>
 							</div>
-						</div>
-					</CardContent>
-					<CardFooter>
+						</CardContent>
+						<CardFooter className="flex-col gap-y-2">
+							<Button
+								type="submit"
+								className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+								disabled={isLoading || !projectName.trim()}
+							>
+								{isLoading ? (
+									<>
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+										Creating Dapp...
+									</>
+								) : (
+									<>
+										<Github className="mr-2 h-4 w-4" />
+										Create Dapp
+									</>
+								)}
+							</Button>
+							<button
+								className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+								onClick={() => signOut({ callbackUrl: '/' })}
+								type="button"
+							>
+								Sign Out
+							</button>
+						</CardFooter>
+					</form>
+				) : (
+					<div className="w-full flex justify-center h-[70px]">
 						<Button
-							type="submit"
-							className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-							disabled={isLoading || !projectName.trim()}
+							className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 ease-in-out "
+							onClick={() =>
+								signIn('github', { callbackUrl: '/' })
+							}
+							type="button"
 						>
-							{isLoading ? (
-								<>
-									<Loader2 className="mr-2 h-4 w-4 animate-spin" />
-									Creating Dapp...
-								</>
-							) : (
-								<>
-									<Github className="mr-2 h-4 w-4" />
-									Create Dapp
-								</>
-							)}
+							Sign In With GitHub
 						</Button>
-					</CardFooter>
-				</form>
+					</div>
+				)}
 			</Card>
 		</div>
 	);
