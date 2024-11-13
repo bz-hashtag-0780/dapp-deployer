@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "@octokit/rest": "^21.0.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "class-variance-authority": "^0.7.0",
     "lucide-react": "^0.456.0",
     "next": "15.0.2",
     "next-auth": "^4.24.10",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
     "@types/node": "^20",

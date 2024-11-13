@@ -16,6 +16,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Footer } from '@/components/layout/Footer';
 import { Github, Loader2 } from 'lucide-react';
 
 const HomePage = () => {
@@ -43,12 +44,16 @@ const HomePage = () => {
 
 			const repoData = await response.json();
 			console.log('Repository created:', repoData);
-			// alert(`Repository "${projectName}" created successfully!`);
+
 			const username = repoData.githubHandle;
-			if (username) {
-				setRepoUrl(`https://github.com/${username}/${projectName}`);
+			const actualRepoName = repoData.name;
+
+			if (username && actualRepoName) {
+				setRepoUrl(`https://github.com/${username}/${actualRepoName}`);
 			} else {
-				throw new Error("Couldn't retrieve GitHub username.");
+				throw new Error(
+					"Couldn't retrieve GitHub username or repository name."
+				);
 			}
 		} catch (error) {
 			console.error('Error creating repository:', error);
@@ -166,6 +171,7 @@ const HomePage = () => {
 					</div>
 				)}
 			</Card>
+			<Footer />
 		</div>
 	);
 };

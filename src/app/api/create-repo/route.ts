@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { options } from '../auth/[...nextauth]/options'; // adjust this import path based on your setup
 
 export async function POST(request: Request) {
-	const session = await getServerSession(options); // Get the session, which includes the user's GitHub access token
+	const session = await getServerSession(options);
 
 	if (!session) {
 		return NextResponse.json(
@@ -14,23 +14,37 @@ export async function POST(request: Request) {
 	}
 
 	const accessToken = session.accessToken as string;
-
-	// Initialize Octokit with the user's access token
-	const octokit = new Octokit({
-		auth: accessToken,
-	});
-
+	const octokit = new Octokit({ auth: accessToken });
 	const { name } = await request.json();
-
-	// Generate a random 5-character alphanumeric suffix
-	const randomSuffix = Math.random().toString(36).substring(2, 7);
-	// Use the provided name, or generate a default name with a random suffix
-	const repositoryName = name || `KittyZenBot-${randomSuffix}`;
 
 	try {
 		// Fetch the authenticated user's GitHub handle
 		const { data: userData } = await octokit.rest.users.getAuthenticated();
 		const githubHandle = userData.login;
+
+		// Attempt to get the repository by name
+		let repositoryName = name || `KittyZenBot`;
+		let repoExists = false;
+
+		try {
+			await octokit.rest.repos.get({
+				owner: githubHandle,
+				repo: repositoryName,
+			});
+			repoExists = true;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			if (error.status !== 404) {
+				throw error; // Throw other errors
+			}
+			// If 404, repository does not exist, so proceed
+		}
+
+		// If repository exists, append a random suffix to make it unique
+		if (repoExists) {
+			const randomSuffix = Math.random().toString(36).substring(2, 7);
+			repositoryName = `${repositoryName}-${randomSuffix}`;
+		}
 
 		// Use Octokit to create the repository
 		const response = await octokit.request(
