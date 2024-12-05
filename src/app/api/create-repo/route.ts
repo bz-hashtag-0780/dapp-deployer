@@ -23,7 +23,7 @@ export async function POST(request: Request) {
 		const githubHandle = userData.login;
 
 		// Attempt to get the repository by name
-		let repositoryName = name || `KittyZenBot`;
+		let repositoryName = name || `KittyKombatBot`;
 		let repoExists = false;
 
 		try {
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 			'POST /repos/{template_owner}/{template_repo}/generate',
 			{
 				template_owner: 'bz-hashtag-0780',
-				template_repo: 'KittyZenBot',
+				template_repo: 'KittyKombatBot',
 				name: repositoryName,
 			}
 		);
