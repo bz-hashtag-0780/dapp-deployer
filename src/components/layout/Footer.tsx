@@ -9,12 +9,16 @@ import {
 import {
 	HelpCircle,
 	BookOpen,
+	LogIn,
+	LogOut,
 	FileText,
 	KeyRound,
 	AlertCircle,
 } from 'lucide-react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 export function Footer() {
+	const { data: session } = useSession();
 	return (
 		<footer className="fixed bottom-0 w-full px-4 py-2 flex justify-between items-center bg-black/10 backdrop-blur-sm">
 			<div className="text-white/80 text-sm">
@@ -40,10 +44,26 @@ export function Footer() {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" className="w-56">
+					{session ? (
+						<DropdownMenuItem onClick={() => signOut()}>
+							<LogOut className="mr-2 h-4 w-4" />
+							Sign Out
+						</DropdownMenuItem>
+					) : (
+						<DropdownMenuItem
+							onClick={() =>
+								signIn('github', { callbackUrl: '/' })
+							}
+						>
+							<LogIn className="mr-2 h-4 w-4" />
+							Sign In
+						</DropdownMenuItem>
+					)}
 					<DropdownMenuItem href="https://flow.com" target="_blank">
 						<BookOpen className="mr-2 h-4 w-4" />
 						Help & FAQ
 					</DropdownMenuItem>
+
 					{/* <DropdownMenuItem>
 						<FileText className="mr-2 h-4 w-4" />
 						Release notes
